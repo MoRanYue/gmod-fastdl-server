@@ -1,0 +1,36 @@
+{
+  "scripts": {
+    "build-ts": "tsc && tsc-alias",
+    "build-static": "ts-node copyStatic.ts",
+    "build": "npm run build-ts && npm run build-static",
+    "dev": "npm run build && node -r tsconfig-paths/register ./dist/index.js"
+  },
+  "version": "1.0.0",
+  "author": "Kamisato-Aayaka-233",
+  "description": "A Fastdl server for Gmod.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "compressjs": "^1.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.2.1",
+    "@types/shelljs": "^0.8.12",
+    "nodemon": "^2.0.22",
+    "shelljs": "^0.8.5",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.6",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
+  }
+}
