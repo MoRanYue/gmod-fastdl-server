@@ -279,17 +279,17 @@ class Logger {
         const recordingTime = `[${formatDate('%Y-%m-%d %H:%M:%S.%l')}]`;
         switch (level) {
             case LogLevel.error:
-                return console.color(Color.fBlack, Color.bBlue, `${recordingTime}[ERROR] ${utils.format(content, ...formatting)}`);
+                return console.color(Color.fBlack, Color.bBlue, `${recordingTime}[错误] ${utils.format(content, ...formatting)}`);
             case LogLevel.failure:
-                return console.color(Color.fRed, Color.bBlue, `${recordingTime}[FAILURE] ${utils.format(content, ...formatting)}`);
+                return console.color(Color.fRed, Color.bBlue, `${recordingTime}[失败] ${utils.format(content, ...formatting)}`);
             case LogLevel.success:
-                return console.color(Color.fGreen, `${recordingTime}[SUCCESS] ${utils.format(content, ...formatting)}`);
+                return console.color(Color.fGreen, `${recordingTime}[成功] ${utils.format(content, ...formatting)}`);
             case LogLevel.warning:
-                return console.color(Color.fYellow, `${recordingTime}[WARNING] ${utils.format(content, ...formatting)}`);
+                return console.color(Color.fYellow, `${recordingTime}[警告] ${utils.format(content, ...formatting)}`);
             case LogLevel.debugging:
-                return console.color(Color.fBlue, `${recordingTime}[DEBUGGING] ${utils.format(content, ...formatting)}`);
+                return console.color(Color.fBlue, `${recordingTime}[调试] ${utils.format(content, ...formatting)}`);
             default:
-                return `${recordingTime}[INFO] ${utils.format(content, ...formatting)}`;
+                return `${recordingTime}[信息] ${utils.format(content, ...formatting)}`;
         }
     }
     print(content, level = LogLevel.info, ...formatting) {
