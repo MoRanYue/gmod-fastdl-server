@@ -87,7 +87,12 @@ async function init() {
 init().then(() => {
   if (config.generateScript) {
     logger.success("Lua脚本生成完成，请将当前目录的“fastdl.lua”文件放置到“服务端/garrysmod/lua/autorun”中")
-    script.write('\nend')
+    fs.createWriteStream('./fastdl.lua', {
+      encoding: 'utf-8',
+      flags: 'r+',
+      autoClose: true
+    }).write('\nend')
+    
     return
   }
   logger.success("服务器启动完成 <3")
