@@ -28,23 +28,24 @@ async function init() {
 
   if (config.generateScript) {
     logger.info("开始生成Lua脚本")
+    let succeeded = false
+
+    const script = fs.createWriteStream('./fastdl.lua', {
+      encoding: 'utf-8',
+      flags: 'w',
+      autoClose: true
+    })
+
+    script.on('error', () => {
+      throw new Error("Lua脚本文件无法写入")
+    })
+
+    script.write("if SERVER then")
 
     fs.readdir(config.filePath, (err, files) => {
       if (err) {
         throw new Error("无法生成“FILE_PATH”的路径的Lua脚本")
       }
-
-      const script = fs.createWriteStream('./fastdl.lua', {
-        encoding: 'utf-8',
-        flags: 'w',
-        autoClose: true
-      })
-
-      script.on('error', () => {
-        throw new Error("Lua脚本文件无法写入")
-      })
-
-      script.write("if SERVER then")
 
       files.forEach(filename => {
         const fp = path.join(config.filePath, filename)
@@ -61,8 +62,6 @@ async function init() {
                   const fp_ = path.join(fp, filename_)
 
                   fs.stat(fp_, (err, stats_) => {
-                    console.log('fsmaoifnjsaoignsaoignsaoipgnsaoignsaoignsafoigsnaoi')
-                    console.log(filename_)
 
                     if (stats_.isFile() && ['bsp', 'bz2'].includes(<string>filename_.split('.').pop()?.trim().toLowerCase())) {
                       script.write(`\n  resource.AddFile("maps/${filename_}")`)
@@ -74,6 +73,8 @@ async function init() {
           }
         })
       });
+
+      succeeded = true
     })
   }
   else {
@@ -86,13 +87,23 @@ async function init() {
 }
 init().then(() => {
   if (config.generateScript) {
-    logger.success("Lua脚本生成完成，请将当前目录的“fastdl.lua”文件放置到“服务端/garrysmod/lua/autorun”中")
-    fs.createWriteStream('./fastdl.lua', {
-      encoding: 'utf-8',
-      flags: 'r+',
-      autoClose: true
-    }).write('\nend')
-    
+    fs.access('./fastdl.lua', fs.constants.W_OK, (err) => {
+      if (err) {
+        logger.error("Lua脚本无法写入")
+        return
+      }
+
+      const f = fs.createWriteStream('./fastdl.lua', {
+        autoClose: true,
+        encoding: 'utf-8',
+        flags: 'a'
+      })
+
+      f.write('\nend')
+
+      logger.success("Lua脚本生成完成，请将当前目录的“fastdl.lua”文件放置到“服务端/garrysmod/lua/autorun”中")
+    })
+
     return
   }
   logger.success("服务器启动完成 <3")
